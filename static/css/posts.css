@@ -1,0 +1,169 @@
+/* 게시판 글 목록조회 화면 */
+
+/* 게시판 전체 화면 */
+.post-list {
+    min-height: 70vh;
+}
+
+/* 게시판 목록 상단 */
+.post-title {
+    padding-top: 30px;
+}
+
+.board-top {
+    display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+.board-top strong {
+    color: royalblue;
+}
+
+.board-top label {
+	font-size: 14px;
+}
+
+.board-top select {
+	height: 32px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	min-width: 80px;
+	padding: 0 4px;
+}
+
+.board-top > div {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.search-form {
+	height: 32px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+}
+
+.search-form input[type="search"],
+.search-form button {
+	border: 0;
+	height: 100%;
+}
+.search-form input[type="search"] {
+	padding: 0 6px;
+}
+.search-form button {
+	background: #eee;
+	background-image: url(../img/icon-search.png);
+    background-size: 32px 32px;
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+}
+
+/* 게시판 목록 조회 table */
+table {
+	/* cell 사이 간격 삭제 */
+	border-spacing: 0;
+	/* 테두리 중첩 */
+	border-collapse: collapse;
+	table-layout: fixed;
+	border-top: 2px solid black;
+	border-bottom: 1px solid #ddd;
+	width: 1000px;
+	margin: auto;
+}
+
+
+table th {
+	background-color: #eee;
+	padding: 8px;
+	border-bottom: 1px solid #ddd;
+}
+table td {
+	padding: 10px;
+	border-top: 1px solid #ddd;
+}
+table td.nodata {
+	padding: 40px 0;
+}
+
+table a {
+	display: block;
+	text-align: left;
+	padding: 8px 0;
+	font-weight: bold;
+	/* 말줄임 처리 */
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+/* 텍스트 숨김처리를 위한 CSS */
+.a11y-hidden {
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+}
+
+
+/* 게시판 하단 */
+
+/* pagination */
+.pagination {
+	text-align: center;
+	display: flex;
+	gap: 4px;
+}
+
+.pagination a {
+	width: 32px;
+	height: 32px;
+	border: 1px solid #ddd;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	vertical-align: top;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+.pagination a img {
+	width: 70%;
+}
+.pagination a.num {
+	background: #eee;
+}
+.pagination a.num.active {
+	background-color: royalblue;
+	border-color: royalblue;
+	color: #fff;
+	font-weight: bold;
+}
+
+/* 버튼 */
+.btn-group {
+	margin-top: 20px;
+	text-align: right;
+}
+.btn {
+	background-color: #eee;
+	width: 80px;
+	height: 32px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	font: inherit;
+}
