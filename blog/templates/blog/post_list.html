@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="post-list">
+
+    <!-- 목록 상단 게시글 개수, 검색 창 -->
+    <h1 class="post-title">게시판</h1>
+    <nav class="board-top">
+        <p class="main-desc"><strong>2개</strong>의 게시글이 있습니다.</p>
+  
+        <div>
+          <form class="search-form">
+            <label for="search" class="a11y-hidden">검색</label>
+            <input id="search" type="search" placeholder="검색어를 입력해주세요">
+            <button type="submit"></button>
+          </form>
+  
+          <label for="sort" class="a11y-hidden">정렬</label>
+          <select id="sort">
+            <option>조회순</option>
+            <option>최신순</option>
+          </select>
+        </div>
+    </nav>
+
+    <!-- 게시글 목록 -->
+    <table>
+        <colgroup>
+            <col style="width: 40px">
+            <col style="width: 60px" >
+            <col>
+            <col style="width: 100px">
+            <col style="width: 120px">
+            <col style="width: 100px">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>
+            <input type="checkbox" id="all-article">
+            <!-- <label for="all-article">페이지 전체 게시글 선택</label> -->
+            </th>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+            <th>조회수</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% if posts %}
+                {% for post in posts %}
+                    <tr>
+                        <td>
+                            <input type="checkbox">
+                        </td>
+                        <td>{{ post.index }}</td>
+                        <td>
+                            {{ post.title }}
+                        </td>
+                        <td>{{ post.writer }}</td>
+                        <td>{{ post.created_at }}</td>
+                        <td>{{ post.hits }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                    <p>작성된 게시물이 없습니다.</p>
+            {% endif %}
+    </table>
+
+    <!-- 게시판 하단 -->
+    <div class="board-bottom">
+
+        <!-- 페이징처리 시작 -->
+        <div class="pagination">
+
+            <!-- 이전페이지 -->
+            {% if posts.has_previous %}
+                <a href="?page={{ posts.previous_page_number }}"><img class="previous-page"></a>
+
+            <!-- 이전페이지가 없을 경우  -->
+            {% else %}
+                <a href="#" class="paging-disable" tabindex="-1" aria-disabled="true"><img class="previous-page"></a>
+
+            {% endif %}
+                
+
+
+            <!-- 페이지 리스트 -->
+            {% for p_num in posts.paginator.page_range %}
+
+                <!-- 페이지 번호 표시 제한 -->
+                {% if p_num >= posts.number|add:-3 and p_num <= posts.number|add:3 %}
+                <!-- 현재 페이지와 같은지 체크 -->
+                    {% if p_num == posts.number %}
+                        <a href="?page={{ p_num }}" class="num active" aria-current="page">{{ p_num }}</a>
+                    {% else %}
+                        <a href="?page={{ p_num }}" class="num">{{ p_num }}</a>
+                    {% endif%}
+                {% endif%}
+
+            {% endfor %}
+
+            <!-- 다음 페이지 -->
+            {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}"><img class="next-page"></a>
+            {% else %}
+                <a href="#" class="paging-disable" tabindex="-1" aria-disabled="true"><img class="next-page"></a>
+            {% endif %}
+
+        </div>
+        <!-- 페이징처리 끝 -->
+
+        <div class="btn-group">
+            <button class="btn">선택삭제</button>
+            <a href="#" class="btn">글쓰기</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
