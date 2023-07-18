@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.views import View
 from .forms import PostForm, CommentForm, HashTagForm
 from .models import Post, Comment, HashTag
@@ -11,12 +12,22 @@ class PostList(View):
 
     def get(self, request):
         posts = Post.objects.all()
-        page = request.GET.get('page', '1')  # 페이지
+        page = request.GET.get('page')  # 페이지
         paginator = Paginator(posts, 5)  # 페이지당 5개씩 보여주기
-        page_obj = paginator.get_page(page)
+
+        try:
+            page_obj = paginator.get_page(page)
+        except PageNotAnInteger:
+            page = 1
+            page_obj = Paginator.get_page(page)
+        except EmptyPage:
+            page = paginator.num_pages
+            page_obj = Paginator.get_page(page)
+
         context = {
             "title": "PostList",
-            "posts": page_obj,
+            "posts": posts,
+            "page_obj": page_obj,
         }
         return render(request, 'blog/post_list.html', context)
 
@@ -49,9 +60,9 @@ class PostWrite(LoginRequiredMixin, View):
 
 class PostDetail(View):
 
-    def get(self, request, post_id):
+    def get(self, request, pk):
         post = Post.objects.prefetch_related(
-            'comment_set', 'hashtag_set').get(pk=post_id)
+            'comment_set', 'hashtag_set').get(pk=pk)
 
         comments = post.commnet_set.all()
         hashtags = post.hashtag_set.all()
@@ -61,7 +72,7 @@ class PostDetail(View):
 
         context = {
             'title': 'PostDetail',
-            'post_id': post_id,
+            'post_id': pk,
             'post_title': post.title,
             'post_content': post.content,
             'post_writer': post.writer,
@@ -107,7 +118,97 @@ class PostUpdate(View):
 
 
 class PostDelete(View):
+
     def post(self, request, post_id):
         post = get_object_or_404(Post, pk=post_id)
         post.delete()
         return redirect('blog:list')
+
+
+# Comment
+class CommentWrite(LoginRequiredMixin, View):
+
+    def post(self, request, pk):
+        form = CommentForm(request.POST)
+        post = get_object_or_404(Post, pk=pk)
+
+        if form.is_valid():
+            content = form.cleaned_data['content']
+            writer = request.user
+
+            try:
+                comment = Comment.objects.create(
+                    post=post, content=content, writer=writer)
+            except ObjectDoesNotExist as e:
+                print('Post does not exist.', str(e))
+            except ValidationError as e:
+                print('Valdation error occurred.', str(e))
+
+            return redirect('blog:detail', pk=pk)
+
+        hashtag_form = HashTagForm()
+
+        context = {
+            'title': 'PostDetail',
+            'post_id': pk,
+            'comments': post.comment_set.all(),
+            'hashtags': post.hashtag_set.all(),
+            'comment_form': form,
+            'hashtag_form': hashtag_form
+        }
+        return render(request, 'blog/post_detail.html', context)
+
+
+class CommentDelete(View):
+
+    def post(self, request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        post_id = comment.post.id
+        comment.delete()
+        return redirect('blog:detail', pk=post_id)
+
+
+# HashTag
+class HashTagWrite(LoginRequiredMixin, View):
+
+    def post(self, request, pk):
+        form = HashTagForm(request.POST)
+        post = get_object_or_404(Post, pk=pk)
+
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            writer = request.user
+
+            try:
+                hashtag = HashTag.objects.create(
+                    post=post, name=name, writer=writer)
+            except ObjectDoesNotExist as e:
+                print('Post does not exist.', str(e))
+            except ValidationError as e:
+                print('Valdation error occurred', str(e))
+
+            return redirect('blog:detail', pk=pk)
+
+        comment_form = CommentForm()
+
+        context = {
+            'title': 'Blog',
+            'post': post,
+            'comments': post.comment_set.all(),
+            'hashtags': post.hashtag_set.all(),
+            'comment_form': comment_form,
+            'hashtag_form': form
+        }
+
+        return render(request, 'blog/post_detail.html', context)
+
+
+class HashTagDelete(View):
+
+    def post(self, request, pk):
+        hashtag = get_object_or_404(HashTag, pk=pk)
+        post_id = hashtag.post.id
+
+        hashtag.delete()
+
+        return redirect('blog:detail', pk=post_id)
