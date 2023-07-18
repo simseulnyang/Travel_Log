@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="post-write">
+
+    <h1 class="write-title">글수정</h1>
+    <p class="write-desc">내용을 수정 해주세요.</p>
+
+    <form action="{% url 'blog:update' %}" method="post">
+        {% csrf_token %}
+        <table class="table write">
+            <colgroup>
+                <col style="width: 120px">
+                <col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th><label for="board-title">제목</label></th>
+                    <td><input type="text" id="board-title" name="title">{{ post.title.value }}</td>
+                </tr>
+                <tr>
+                    <th><label for="board-content">내용</label></th>
+                    <td>
+                    <textarea id="board-content" name="content">{{ post.content.value }}</textarea>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="btn-group">
+        <a href="{% url 'blog:list' %}" class="btn">목록</a>
+        <button type="submit" class="btn">글수정</button>
+        </div>
+
+    </form>
+</section>
+
+{% endblock %}
