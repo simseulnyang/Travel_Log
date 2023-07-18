@@ -4,6 +4,12 @@
     <div class="main-screen">
         <h1 class="main-greeting">Welcome Travel Blog!</h1>
         <p class="main-subtitle">여행에 대한 모든 정보</p>
-        <button class="main-enter-btn">Blog 입장하기</button>
+        
+        {% if user.is_authenticated %}
+            <a href="{% url 'blog:list' %}" class="main-enter-btn" >Blog 입장하기</a>
+        {% else %}
+            <a href="{% url 'user:login' %}" class="main-enter-btn" >Blog 입장하기</a>
+        {% endif %}
+        
     </div>
 {% endblock %}
