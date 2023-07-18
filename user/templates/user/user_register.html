@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="{% url 'user:register' %}" method="post">
+    {% csrf_token %}
+    <section class="container">
+      <h2 class="join-title">회원가입</h2>
+      <p class="description">
+        원활한 서비스를 이용을 위해 회원가입을 해주세요
+      </p>
+
+        <div class="join">
+            {% for field in form %}
+            <div class="form-box">
+                <div class="label-width">{{ field.label }}</div>
+                <div>{{ field }}</div>
+            </div>
+            {% endfor %}
+            <!-- <table class="join-table">
+                <colgroup>
+                    <col>
+                    <col>
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td class="label-width join-email">Email :</td>
+                        <td class="join-email">
+                            <input type="email" name="email">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-width join-pw">Password :</td>
+                        <td class="join-pw">
+                            <input type="password" name="password">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-width join-nickname">Nickname :</td>
+                        <td class="join-nickname">
+                            <input type="text" name="nickname">
+                        </td>
+                    </tr>
+                </tbody>
+            </table> -->
+        </div>
+        <button class="submit-button" type="submit">회원가입</button>
+    </section>
+</form>
+
+{% endblock %}
