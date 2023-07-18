@@ -10,6 +10,9 @@ ul {
 	padding: 0;
 	margin: 0;
 }
+ul, ol {
+	list-style: none;
+}
 a {
 	text-decoration: none;
 	color: inherit;
@@ -28,7 +31,7 @@ button:enabled {
 
 /* layout --------------------------------- */
 body {
-	min-width: 1000px;
+	min-width: 950px;
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
@@ -36,37 +39,89 @@ body {
 
 main {
 	flex-grow: 1;
-	width: 1000px;
+	width: 950px;
 	margin: auto;
 }
 
 /* header */
 header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0 20px;
-	height: 80px;
+	width: 100%;
 	border-bottom: 1px solid #ddd;
 }
-header h1 a {
-	color: black;
+
+header .inner {
+	width: 1000px;
+	height: 90px;
+	margin: 0px auto;
+	position: relative;
 }
-.header-click a
-{
-	padding: 10px 15px;
-	margin-left: 10px;
-	color: black;
-	text-decoration: none;
+
+header .inner h1 {
+	position: absolute;
+	left: 5px;
+	bottom: 15px;
 }
+
+header .inner h1 a {
+	font: bold 24px/1 "arial";
+	color: #444;
+}
+
+header .inner .util {
+	position: absolute;
+	top: 20px;
+	right: 30px;
+}
+
+header .inner .util li {
+	float: left;
+}
+
+header .inner .util li a {
+	display: block;
+	font: 12px/1 "arial";
+	color: #999;
+	padding: 0px 10px;
+}
+
+header .inner .util li a:hover {
+	box-pack: #999;
+	color: #141414;
+}
+
+header .inner #gnb {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+}
+
+header .inner #gnb li {
+	float: left;
+}
+
+header .inner #gnb li a {
+	display: block;
+	font: bold 15px/1 "arial";
+	color: #555;
+	padding: 20px;
+	transition:	all 0.5s;
+}
+
+header .inner #gnb li a:hover {
+	box-pack: #555;
+	color: #b3b3b3;
+}
+
+
 
 /* footer */
 footer {
-	background: #eee;
+	background-color: #c2c2c2;
 	text-align: center;
 	padding: 20px 0;
-	margin-top: 80px;
+	margin-top: 20px;
 }
+
 
 /* index main 내부 컨텐츠 --------------------------------- */
 .main-screen {
@@ -80,7 +135,7 @@ footer {
 .main-greeting {
 	text-align: center;
 	font-size: 80px;
-	padding-bottom: 15px;
+	padding: 15px 0;
 }
 
 .main-subtitle {
@@ -96,8 +151,9 @@ footer {
 	color: white;
 	font-size: 30px;
 	font-weight: bold;
-	width: 300px;
-	height: 60px;
+	text-align: center;
+	padding: 20px 0;
+	width: 350px;
 }
 
 /* 버튼 */
