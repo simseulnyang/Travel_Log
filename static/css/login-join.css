@@ -1,0 +1,81 @@
+/* 로그인 - 회원가입 페이지 */
+
+.container {
+	width: 420px;
+	margin: 60px auto;
+}
+
+.login-title,
+.join-title,
+.description {
+	text-align: center;
+}
+
+.description {
+	margin: 20px 0 40px 0;
+	color: #767676;
+}
+
+.label-width {
+	border: 0;
+	text-align: right;
+	font-size: 20px;
+	display: inline-block;
+	width: 110px;
+	padding: 10px 5px;
+}
+
+.submit-button {
+	margin-top: 20px;
+	width: 100%;
+	height: 40px;
+	background-color: royalblue;
+	color: white;
+	border-width: 0;
+	border-radius: 4px;
+	font: inherit;
+	box-sizing: content-box;
+	padding: 0;
+}
+
+
+
+
+/* 로그인 */
+.form-box {
+	margin-bottom: 10px;
+	display: flex;
+	align-items: center;
+}
+
+.label-width{
+	margin-right: 10px;
+}
+
+.login, .join {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+
+/* 회원가입 */
+
+.join-table {
+	width: 600px;
+	border: none;
+	border-spacing: 0;
+    border-collapse: collapse;
+    table-layout: fixed;
+	margin-bottom: 10px;
+	display: flex;
+	align-items: center;
+}
+
+.join-email,
+.join-pw,
+.join-nickname {
+	border: 0;
+	height: 50px;
+}
