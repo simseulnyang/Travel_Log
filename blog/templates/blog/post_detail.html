@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="view">
+    <!-- 글 상세페이지 상단 -->
+    <div class="view-header">
+        <h2>{{ post_title }}</h2>
+        <div class="view-info">
+          <p>작성자: {{ post_writer }}</p>|
+          <p>작성일: {{ post_created_at }}</p>|
+          <p>조회수: {{ post_hits }}</p>
+        </div>
+    </div>
+
+    <!-- 글 상세페이지 -->
+    <article class="view-content">
+        {{ post_content }}
+    </article>
+</section>
+
+<section class="btn-group">
+    <a href="{% url 'blog:list' %}" class="btn">목록</a>
+    <a href="{% url 'blog:edit' pk=post_id %}" class="btn">수정</a>
+    <button type="button" class="btn">삭제</button>
+</section>
+
+{% endblock %}
