@@ -58,12 +58,12 @@
                         <td>
                             <input type="checkbox">
                         </td>
-                        <td>{{ post.index }}</td>
+                        <td>{{ post.id }}</td>
                         <td>
                             <a href="{% url 'blog:detail' pk=post.pk %}">{{ post.title }}</a>
                         </td>
-                        <td>{{ post.writer }}</td>
-                        <td>{{ post.created_at }}</td>
+                        <td>{{ nickname }}</td>
+                        <td>{{ post.created_at|date:'y-m-j' }}</td>
                         <td>{{ post.hits }}</td>
                     </tr>
                 {% endfor %}
