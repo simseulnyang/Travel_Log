@@ -1,8 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
+from django.shortcuts import render, redirect, get_object_or_404
+
 from django.views import View
+
 from .forms import PostForm, CommentForm, HashTagForm
 from .models import Post, Comment, HashTag
 
@@ -64,7 +69,7 @@ class PostDetail(View):
         post = Post.objects.prefetch_related(
             'comment_set', 'hashtag_set').get(pk=pk)
 
-        comments = post.commnet_set.all()
+        comments = post.comment_set.all()
         hashtags = post.hashtag_set.all()
 
         comment_form = CommentForm()
@@ -72,7 +77,7 @@ class PostDetail(View):
 
         context = {
             'title': 'PostDetail',
-            'post_id': pk,
+            'pk': pk,
             'post_title': post.title,
             'post_content': post.content,
             'post_writer': post.writer,
@@ -88,26 +93,31 @@ class PostDetail(View):
 
 class PostUpdate(View):
 
-    def get(self, request, post_id):
-        post = get_object_or_404(Post, pk=post_id)
-        form = PostForm(
-            initial={'post_title': post.title, 'post_content': post.content})
-        context = {
-            'title': 'PostUpdate',
-            'post': post,
-            'form': form,
-        }
-        return render(request, 'blog/post_edit.html', context)
+    def get(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
 
-    def post(self, request, post_id):
-        post = get_object_or_404(Post, pk=post_id)
+        if post.writer == request.user:
+            form = PostForm(
+                initial={'title': post.title, 'content': post.content})
+            context = {
+                'title': 'PostUpdate',
+                'post': post,
+                'form': form,
+            }
+            return render(request, 'blog/post_edit.html', context)
+
+        messages.warning(request, '본인 글만 수정이 가능합니다.')
+        return redirect('blog:detail', post.pk)
+
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
         form = PostForm(request.POST)
 
         if form.is_valid():
-            post.title = form.cleaned_data['post_title']
-            post.content = form.cleaned_data['post_content']
+            post.title = form.cleaned_data['title']
+            post.content = form.cleaned_data['content']
             post.save()
-            return redirect('blog:detail', pk=post_id)
+            return redirect('blog:detail', pk=pk)
 
         context = {
             'form': form,
