@@ -53,7 +53,7 @@
     <h3>댓글 목록</h3>
     <ul class="cm-list">
         {% for comment in comments %}
-            <li><span>{{ comment.writer }}</span> | <span>{{ comment.content }}</span> | <span>{{ comment.created_at }}</span>
+            <li><span>작성자 : {{ comment.writer.nickname }}</span> | <span>{{ comment.content }}</span> | <span>{{ comment.created_at }}</span>
                 {% if comment.writer == request.user%}
                     <form action="{% url 'blog:cm-delete' pk=comment.pk %}" method="post">
                         {% csrf_token %}
