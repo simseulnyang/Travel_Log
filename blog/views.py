@@ -27,11 +27,12 @@ class PostList(View):
         except EmptyPage:
             page = paginator.num_pages
             page_obj = Paginator.get_page(page)
+        print(page)
 
         context = {
             "title": "PostList",
-            "posts": posts,
-            "page_obj": page_obj,
+            "posts": page_obj,
+            "post_list": posts,
         }
         return render(request, 'blog/post_list.html', context)
 
@@ -139,7 +140,8 @@ class CommentWrite(LoginRequiredMixin, View):
     def post(self, request, pk):
         form = CommentForm(request.POST)
         post = get_object_or_404(Post, pk=pk)
-
+        post.hits -= 1
+        post.save()
         if form.is_valid():
             content = form.cleaned_data['content']
             writer = request.user
