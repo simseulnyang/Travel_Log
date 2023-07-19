@@ -84,6 +84,13 @@ header .inner .util li a {
 	padding: 0px 10px;
 }
 
+header .inner .util li .user-info {
+	display: block;
+	font: 12px/1 "arial";
+	color: #3a3a3a;
+	padding: 0px 10px;
+}
+
 header .inner .util li a:hover {
 	box-pack: #999;
 	color: #141414;
