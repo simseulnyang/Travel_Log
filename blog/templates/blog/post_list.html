@@ -5,10 +5,10 @@
 <section class="post-list">
 
     <!-- 목록 상단 게시글 개수, 검색 창 -->
-    <h1 class="post-title">게시판</h1>
+    <h1 class="post-title">여행기록</h1>
     <nav class="board-top">
-        {% if posts.count > 0 %}
-            <p class="main-desc"><strong>{{ posts.count }}개</strong>의 게시글이 있습니다.</p>
+        {% if post_list.count > 0 %}
+            <p class="main-desc"><strong>{{ post_list.count }}개</strong>의 게시글이 있습니다.</p>
         {% else %}
             <p class="main-desc"><strong>0개</strong>의 게시글이 있습니다.</p>
         {% endif %}
@@ -32,7 +32,7 @@
     <table>
         <colgroup>
             <col style="width: 40px">
-            <col style="width: 60px" >
+            <col style="width: 60px">
             <col>
             <col style="width: 100px">
             <col style="width: 120px">
