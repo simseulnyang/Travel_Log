@@ -7,7 +7,7 @@
     <h1 class="write-title">글수정</h1>
     <p class="write-desc">내용을 수정 해주세요.</p>
 
-    <form action="{% url 'blog:update' %}" method="post">
+    <form action="{% url 'blog:edit' pk=post.id %}" method="post">
         {% csrf_token %}
         <table class="table write">
             <colgroup>
@@ -17,20 +17,20 @@
             <tbody>
                 <tr>
                     <th><label for="board-title">제목</label></th>
-                    <td><input type="text" id="board-title" name="title">{{ post.title.value }}</td>
+                    <td><input type="text" id="board-title" name="title" value="{{ post.title }}"></td>
                 </tr>
                 <tr>
                     <th><label for="board-content">내용</label></th>
                     <td>
-                    <textarea id="board-content" name="content">{{ post.content.value }}</textarea>
+                    <textarea id="board-content" name="content" value="{{ post.content }}"></textarea>
                     </td>
                 </tr>
             </tbody>
         </table>
 
         <div class="btn-group">
-        <a href="{% url 'blog:list' %}" class="btn">목록</a>
-        <button type="submit" class="btn">글수정</button>
+            <a href="{% url 'blog:list' %}" class="btn">목록</a>
+            <button type="submit" class="btn">글수정</button>
         </div>
 
     </form>
