@@ -124,12 +124,6 @@ table a {
 	align-items: center;
 	justify-content: space-between;
 }
-.board-bottom .pagination {
-	justify-self: center;
-}
-.board-bottom .btn-group {
-	margin-top: 0;
-}
 
 /* pagination */
 .pagination {
@@ -184,9 +178,46 @@ table a {
 	margin-top: 20px;
 	text-align: right;
 }
+
+.list-btn-group {
+	display: flex;
+	justify-content: end;
+	align-items: center;
+	padding-top: 10px;
+	gap: 5px;
+}
+
+.list-btn,
+.update-btn,
+.delete-btn {
+	width: 80px;
+	height: 40px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	font: inherit;
+}
+
+.list-btn {
+	background-color: #ccc;
+}
+
+.update-btn {
+	background-color: rgb(76, 131, 76);
+	color: white;
+}
+
+.delete-btn {
+	background-color: rgb(245, 65, 65);
+	color: white;
+}
+
 .btn {
 	background-color: royalblue;
-	width: 100px;
+	width: 80px;
 	height: 40px;
 	border: 1px solid #ddd;
 	border-radius: 4px;
@@ -197,6 +228,8 @@ table a {
 	font: inherit;
 	color: white;
 }
+
+
 
 
 
