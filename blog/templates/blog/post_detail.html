@@ -1,14 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<!-- 버튼 목록 -->
+<div class="list-btn-group">
+    <a href="{% url 'blog:list' %}" class="list-btn">목록</a>
+    {% if post_writer == request.user %}
+    <a href="{% url 'blog:edit' pk=pk %}" class="update-btn">수정</a>
+    <form action="{% url 'blog:delete' pk=pk %}" method="post">
+        {% csrf_token %}
+        <input type="submit" class="delete-btn" value="삭제">
+    </form>
+    {% endif %}
+</div>
+
+<!-- 메인 화면 -->
 <section class="view">
+
     <!-- 글 상세페이지 상단 -->
     <div class="view-header">
         <h2>{{ post_title }}</h2>
         <div class="view-info">
-          <p>작성자: {{ post_writer }}</p>|
-          <p>작성일: {{ post_created_at }}</p>|
-          <p>조회수: {{ post_hits }}</p>
+            <p>작성자: {{ post_writer }}</p>|
+            <p>작성일: {{ post_created_at }}</p>|
+            <p>조회수: {{ post_hits }}</p>
         </div>
     </div>
 
@@ -16,15 +31,46 @@
     <article class="view-content">
         {{ post_content }}
     </article>
+
+    <!-- 코멘트 작성 창-->
+    {% if user.is_authenticated %}
+    <section class="cm-box">
+        <h3 class="cm-title">댓글 작성하기</h3>
+        <form action="{% url 'blog:cm-write' pk=pk %}" method="post">
+            {% csrf_token %}
+            {% for field in comment_form %}
+            <div class="cm-textarea">
+                <div class="cm-textarea-input">{{ field }}</div>
+                <input class="cm-textarea-btn" type="submit" value="등록">
+            </div>
+            {% endfor %}
+        </form>
+    </section>
+    {% endif %}
+    
+    <!-- 작성된 코멘트 목록  -->
+    {% if comments %}
+    <h3>댓글 목록</h3>
+    <ul class="cm-list">
+        {% for comment in comments %}
+            <li><span>{{ comment.writer }}</span> | <span>{{ comment.content }}</span> | <span>{{ comment.created_at }}</span>
+                {% if comment.writer == request.user%}
+                    <form action="{% url 'blog:cm-delete' pk=comment.pk %}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="X" class='cm-delete-btn'>
+                    </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <h3>댓글 목록</h3>
+    <ul class="cm-list">
+        <li> 등록된 댓글이 없습니다. 댓글을 작성해 주세요.</li>
+    </ul>
+    {% endif %}
 </section>
 
-<section class="btn-group">
-    <form action="{% url 'blog:edit' pk=pk %}">
-        {% csrf_token %}
-        <a href="{% url 'blog:list' %}" class="btn">목록</a>
-        <input type="submit" class="btn" value="수정">
-        <a href="{% url 'blog:delete' pk=pk %}" class="btn">삭제</a>
-    </form>
-</section>
+
 
 {% endblock %}
