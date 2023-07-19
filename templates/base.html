@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{% static 'css/common.css' %}">
     <link rel="stylesheet" href="{% static 'css/posts.css' %}">
     <link rel="stylesheet" href="{% static 'css/login-join.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/comment.css' %}"> 
 </head>
 
 <body>
@@ -36,6 +37,7 @@
             <!-- login 관련 메뉴 -->
             {% if user.is_authenticated %}
             <ul class="util">
+                <li><span class="user-info">{{user.nickname}}님, 환영합니다.</span></li>
                 <li><a href="{% url 'user:logout' %}">로그아웃</a></li>
             </ul>
             {% else %}
@@ -52,14 +54,6 @@
     <main>
         
         {% block content %}
-
-        {% if messages %}
-            <ul class="messages">
-               {% for message in messages %}
-                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-               {% endfor %}
-            </ul>
-        {% endif %}
 
         {% endblock %}
     </main>
