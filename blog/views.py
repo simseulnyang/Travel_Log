@@ -17,33 +17,9 @@ from .models import Post, Comment, HashTag
 class PostList(View):
 
     def get(self, request):
-        posts = Post.objects.all()
-        page = request.GET.get('page')  # 페이지
-        paginator = Paginator(posts, 5)  # 페이지당 5개씩 보여주기
-
-        try:
-            page_obj = paginator.get_page(page)
-        except PageNotAnInteger:
-            page = 1
-            page_obj = Paginator.get_page(page)
-        except EmptyPage:
-            page = paginator.num_pages
-            page_obj = Paginator.get_page(page)
-
-        context = {
-            "title": "PostList",
-            "posts": posts,
-            "post_list": page_obj,
-        }
-        return render(request, 'blog/post_list.html', context)
-
-
-class PostSearch(View):
-
-    def get(self, request):
-        search_keyword = self.request.GET.get('q', '')
+        page = request.GET.get('page', '1')
         search_type = self.request.GET.get('type', '')
-        page = request.GET.get('page')
+        search_keyword = self.request.GET.get('q', '')
         posts = Post.objects.order_by('-created_at')
 
         if search_keyword:
@@ -70,11 +46,12 @@ class PostSearch(View):
             page_obj = Paginator.get_page(page)
 
         context = {
+            "title": "PostList",
+            'posts': page_obj,
+            'p_count': posts,
+            'page': page,
             'q': search_keyword,
             'type': search_type,
-            'page': page,
-            'post_list': page_obj,
-            'posts': posts
         }
 
         return render(request, 'blog/post_list.html', context)
