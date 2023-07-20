@@ -110,8 +110,8 @@ TRAVEL_LOG
     - 1차 : 2023-07-17 ~ 2023-07-20
 
  ### 작업관리
-    - 마인드 맵(Focus on 기능구현)
-    ![img](readme/Travel_Log_function.mindmap.png)
+- 마인드 맵(Focus on 기능구현)
+![img](readme/Travel_Log_function.mindmap.png)
 <p align="right"><a href="#top">(Top)</a></p>
 
 
