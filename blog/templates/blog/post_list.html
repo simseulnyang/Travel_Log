@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load blog_filter %} <!-- 템플릿 필터 함수를 사용하기 위한 파일 로드 -->
 {% block content %}
 
 <section class="post-list">
@@ -67,7 +67,9 @@
                         <td>
                             <input type="checkbox">
                         </td>
-                        <td>{{ post.id }}</td>
+                        <td>
+                            {{ posts.paginator.count|sub:posts.start_index|sub:forloop.counter0|add:1}}
+                        </td>
                         <td>
                             <a href="{% url 'blog:detail' pk=post.pk %}">{{ post.title }}</a>
                         </td>
