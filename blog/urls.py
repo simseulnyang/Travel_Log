@@ -7,6 +7,9 @@ urlpatterns = [
     # 글 목록
     path('', views.PostList.as_view(), name='list'),
 
+    # 글 검색
+    path('search/', views.PostSearch.as_view(), name="search"),
+
     # 글 작성
     path('write/', views.PostWrite.as_view(), name='write'),
 

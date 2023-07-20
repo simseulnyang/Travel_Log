@@ -7,24 +7,34 @@
     <!-- 목록 상단 게시글 개수, 검색 창 -->
     <h1 class="post-title">여행기록</h1>
     <nav class="board-top">
-        {% if post_list.count > 0 %}
-            <p class="main-desc"><strong>{{ post_list.count }}개</strong>의 게시글이 있습니다.</p>
+        {% if q %}
+            <p class="main-desc"><strong>{{ q }}</strong>의 검색 결과입니다.</p>
+            <p class="main-desc"><strong>{{ search_posts.count }}개</strong>의 게시글이 있습니다.</p>
         {% else %}
-            <p class="main-desc"><strong>0개</strong>의 게시글이 있습니다.</p>
+            {% if posts.count > 0 %}
+                <p class="main-desc"><strong>{{ posts.count }}개</strong>의 게시글이 있습니다.</p>
+            {% else %}
+                <p class="main-desc"><strong>0개</strong>의 게시글이 있습니다.</p>
+            {% endif %}
         {% endif %}
   
         <div>
-          <form class="search-form">
-            <label for="search" class="a11y-hidden">검색</label>
-            <input id="search" type="search" placeholder="검색어를 입력해주세요">
-            <button type="submit"></button>
-          </form>
-  
-          <label for="sort" class="a11y-hidden">정렬</label>
-          <select id="sort">
-            <option>조회순</option>
-            <option>최신순</option>
-          </select>
+            <form class="search-form" id="searchForm" method="get" action="{% url 'blog:search' %}">
+                <input type="hidden" id="q" name="q" value="{{ q }}">
+                <input type="hidden" id="search-type" name="q" value="{{ type }}">
+                <input type="hidden" id="page" name="page" value="{{ page }}">
+
+                <label for="type" class="a11y-hidden">검색조건</label>
+                <select name="type" id="type">
+                    <option value="title_content">제목+내용</option>
+                    <option value="title">제목</option>
+                    <option value="content">내용</option>
+                </select>
+
+                <label for="search" class="a11y-hidden">검색</label>
+                <input id="search-q" type="text" name="q" value="{{ q }}" placeholder="검색어를 입력해주세요">
+                <button type="button" id="btn_search"></button>   
+            </form>
         </div>
     </nav>
 
@@ -68,8 +78,13 @@
                     </tr>
                 {% endfor %}
             {% else %}
-                    <p>첫 글을 작성해주세요!</p>
+                {% if q %}
+                    <p>일치하는 검색 결과가 없습니다.</p>
+                {% else %}
+                    <p>작성된 게시글이 없습니다. 첫 글을 작성해주세요!</p>
+                {% endif %}
             {% endif %}
+        </tbody>
     </table>
 
     <!-- 게시판 하단 -->
@@ -79,37 +94,36 @@
         <div class="pagination">
 
             <!-- 이전페이지 -->
-            {% if posts.has_previous %}
-                <a href="?page={{ posts.previous_page_number }}"><img class="previous-page"></a>
+            {% if post_list.has_previous %}
+                <a class="page-link" href="javascript:void(0)" data-page="{{ question_list.previous_page_number }}"><img class="previous-page"></a>
 
             <!-- 이전페이지가 없을 경우  -->
             {% else %}
-                <a href="#" class="paging-disable" tabindex="-1" aria-disabled="true"><img class="previous-page"></a>
-
+                <a class="page-link" href="javascript:void(0)" class="paging-disable" tabindex="-1" aria-disabled="true"><img class="previous-page"></a>
             {% endif %}
                 
 
 
             <!-- 페이지 리스트 -->
-            {% for p_num in posts.paginator.page_range %}
+            {% for p_num in post_list.paginator.page_range %}
 
                 <!-- 페이지 번호 표시 제한 -->
-                {% if p_num >= posts.number|add:-3 and p_num <= posts.number|add:3 %}
+                {% if p_num >= post_list.number|add:-3 and p_num <= post_list.number|add:3 %}
                 <!-- 현재 페이지와 같은지 체크 -->
-                    {% if p_num == posts.number %}
-                        <a href="?page={{ p_num }}" class="num active" aria-current="page">{{ p_num }}</a>
+                    {% if p_num == post_list.number %}
+                        <a class="page-link" href="javascript:void(0)" class="num active" aria-current="page">{{ p_num }}</a>
                     {% else %}
-                        <a href="?page={{ p_num }}" class="num">{{ p_num }}</a>
+                        <a class="page-link" href="javascript:void(0)" class="num">{{ p_num }}</a>
                     {% endif%}
                 {% endif%}
 
             {% endfor %}
 
             <!-- 다음 페이지 -->
-            {% if posts.has_next %}
-                <a href="?page={{ posts.next_page_number }}"><img class="next-page"></a>
+            {% if post_list.has_next %}
+                <a class="page-link" href="javascript:void(0)" data-page="{{ question_list.next_page_number }}"><img class="next-page"></a>
             {% else %}
-                <a href="#" class="paging-disable" tabindex="-1" aria-disabled="true"><img class="next-page"></a>
+                <a class="page-link" href="javascript:void(0)" class="paging-disable" tabindex="-1" aria-disabled="true"><img class="next-page"></a>
             {% endif %}
 
         </div>
@@ -126,4 +140,23 @@
     </div>
 </section>
 
+{% endblock %}
+{% block script %}
+<script>
+const page_elements = document.getElementsByClassName("page-link");
+Array.from(page_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        document.getElementById('page').value = this.dataset.page;
+        document.getElementById('searchForm').submit();
+    });
+});
+
+const btn_search = document.getElementById("btn_search");
+btn_search.addEventListener('click', function() {
+    document.getElementById('q').value = document.getElementById('search-q').value;
+    document.getElementById('search-type').value = document.getElementById('type').value;
+    document.getElementById('page').value = 1;  // 검색버튼을 클릭할 경우 1페이지부터 조회한다.
+    document.getElementById('searchForm').submit();
+});
+</script>
 {% endblock %}
