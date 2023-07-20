@@ -133,7 +133,7 @@ table a {
 	gap: 4px;
 }
 
-.pagination a {
+.pagination-item {
 	width: 32px;
 	height: 32px;
 	border: 1px solid #ddd;
@@ -164,10 +164,7 @@ table a {
 
 }
 
-.pagination a.num {
-	background: #eee;
-}
-.pagination a.num.active {
+.pagination-item .active {
 	background-color: royalblue;
 	border-color: royalblue;
 	color: #fff;
