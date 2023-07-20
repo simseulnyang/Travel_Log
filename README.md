@@ -6,24 +6,25 @@
 - Travel_Log는 여행을 좋아하는 사람들이 모여 자신들의 여행이야기를 솔직담백하게 기록하고, 정보를 공유하며, 공감하는 사람들끼리 소통하는 블로그 서비스입니다.
 
 ## 목차
-:link: 1. <a href="#goal">프로젝트 목표</a>
-:link: 2. <a href="#dev">개발환경 및 배포 URL</a>
-:link: 3. <a href="#ins">설치 및 실행</a>
-:link: 4. <a href="#tree">프로젝트 구조</a>
-:link: 5. <a href="#task">개발기간 및 작업관리</a>
-:link: 6. <a href="#ui">UI</a>
-:link: 7. <a href="#erd">데이터베이스 모델링(ERD)</a>
-:link: 8. <a href="#pages">페이지 기능</a>
-:link: 9. <a href="#issues">개발하며 겪은 이슈</a>
-:link: 10. <a href="#realization">느낀점</a>
+<ol>
+    :link:<li><a href="#goal">프로젝트 목표</a></li>
+    :link:<li><a href="#dev">개발환경 및 배포 URL</a></li>
+    :link:<li><a href="#ins">설치 및 실행</a></li>
+    :link:<li><a href="#tree">프로젝트 구조</a></li>
+    :link:<li><a href="#task">개발기간 및 작업관리</a></li>
+    :link:<li><a href="#ui">UI</a></li>
+    :link:<li><a href="#erd">데이터베이스 모델링(ERD)</a></li>
+    :link:<li><a href="#pages">페이지 기능</a></li>
+    :link:<li><a href="#issues">개발하며 겪은 이슈</a></li>
+    :link:<li><a href="#realization">느낀점</a></li>
+</ol>
 <p align="right"><a href="#top">(Top)</a></p>
 <hr>
 
 ## <span id="goal">1. 프로젝트 목표</span>
-- 1차 목표 (현재)
-    - Django 강의에서 배운 내용들을 복습하며, 프로젝트의 핵심인 블로그 게시글의 CRUD 기능 구현에 익숙해진다.
-    - 제공된 GitHub repo의 HTML+CSS를 기본으로 UI 커스터마이징하고, FBV보다는 CBV를 사용하여 개발한다.
-    - ERD 작성 툴을 사용하여 데이터베이스 구조를 설계한다.
+- 사용자들이 자유롭게 여행후기를 남길 수 있는 플랫폼을 제공합니다.
+- 원하는 여행정보를 찾기 위해 제목 또는 내용을 검색할 수 있습니다.  
+
 <p align="right"><a href="#top">(Top)</a></p>
 
 ## <span id="dev">2. 개발환경 및 배포 URL</span>
@@ -39,15 +40,15 @@
 <p align="right"><a href="#top">(Top)</a></p>
 
 ## <span id="ins">3. 설치 및 실행</span>
-- terminal에 명령어를 입력하여 실행한다.
-- 설치 및 실행을 위한 단계는 6번까지 이다.
-- 서버 중지 및 가상환경 비활성화를 위해서는 7번과 8번 명령어를 입력하면 된다.
+- Terminal에 명령어를 입력하여 실행합니다.
+- 설치 및 실행을 위한 단계는 6번까지 입니다.
+- 서버 중지 및 가상환경 비활성화는 7번과 8번과정 입니다.
 ```
 # 1. 가상환경 생성 
-#     => 가상환경설정이름에 설정하고자 하는 가상환경이름을 넣는다.
+#     => 가상환경설정이름에 설정하고자 하는 가상환경이름을 넣습니다.
 python -m venv 가상환경설정이름
 
-# 2. 가상환경 활성화 => 커맨드 라인 앞에 (venv)가 생성됨
+# 2. 가상환경 활성화 => 커맨드 라인 앞에 (venv)가 생성됩니다.
     # macOS
         source venv/bin/activate
     # PowerShell
@@ -71,7 +72,7 @@ http://127.0.0.1:8000/
 
 # 7. 개발 서버 중지 (win에서는 ctrl + c)
 
-# 8. 가상환경 비활성화 => 커맨드 라인 앞에 (venv)가 사라짐
+# 8. 가상환경 비활성화 => 커맨드 라인 앞에 (venv)가 사라집니다.
 deactivate
 ```
 <p align="right"><a href="#top">(Top)</a></p>
@@ -114,6 +115,7 @@ TRAVEL_LOG
 
 
 ## <span id="ui">6. UI</span>
+![img](readme/project_ui_all.png)
 
 ## <span id="erd">7. 데이터베이스 모델링(ERD)</span>
 ![img](readme/Travel_Log_ERD.png)
@@ -132,6 +134,10 @@ TRAVEL_LOG
     결론
 
 ## <span id="realization">10. 느낀점 및 다음 계획</span>
+- 1차 목표 (현재)
+    - Django 강의에서 배운 내용들을 복습하며, 프로젝트의 핵심인 블로그 게시글의 CRUD 기능 구현에 익숙해진다.
+    - 제공된 GitHub repo의 HTML+CSS를 기본으로 UI 커스터마이징하고, FBV보다는 CBV를 사용하여 개발한다.
+    - ERD 작성 툴을 사용하여 데이터베이스 구조를 설계한다.
 
 - 2차 목표 (오르미 1기 끝나기 전까지)
     - 블로그
