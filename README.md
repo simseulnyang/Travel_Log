@@ -11,7 +11,7 @@
     <li><a href="#dev">개발환경 및 배포 URL</a></li>
     <li><a href="#ins">설치 및 실행</a></li>
     <li><a href="#tree">프로젝트 구조</a></li>
-    <li><a href="#task">개발기간 및 작업관리</a></li>
+    <li><a href="#task">개발기간 및 기능기획관리</a></li>
     <li><a href="#ui">UI</a></li>
     <li><a href="#erd">데이터베이스 모델링(ERD)</a></li>
     <li><a href="#pages">페이지 기능</a></li>
@@ -81,6 +81,7 @@ deactivate
 ## <span id="tree">4. 프로젝트 구조</span>
 - app/ : Django 애플리케이션의 기본적인 세팅 디렉토리
 - blog/ : Blog 기능을 담당하는 애플리케이션 디렉토리
+- blog/templatetags : 템플릿 필터 파일 디렉토리
 - static/ : CSS, JavaScript 등 정적파일이 들어있는 디렉토리
 - templates/ : HTML 템플릿 파일 디렉토리
 - user/ : User 기능을 담당하는 애플리케이션 디렉토리
@@ -105,11 +106,11 @@ TRAVEL_LOG
 ```
 <p align="right"><a href="#top">(Top)</a></p>
 
-## <span id="task">5. 개발기간 및 작업관리</span>
+## <span id="task">5. 개발기간 및 기능기획관리</span>
  ### 개발 기간
     - 1차 : 2023-07-17 ~ 2023-07-20
 
- ### 작업관리
+ ### 기능기획관리
 - 마인드 맵(Focus on 기능구현)
 ![img](readme/Travel_Log_function.mindmap.png)
 <p align="right"><a href="#top">(Top)</a></p>
@@ -174,17 +175,90 @@ TRAVEL_LOG
  #### 결론
   - 강사님께 조언을 구했고 해당 코드는 굳이 url 및 class를 새로 작성할 필요 없이 게시글 목록을 보여주는 class에 추가하여 작성하면 된다는 사실을 알게되었습니다.
   - class Postlist 안에 검색 및 페이징 할 수 있는 코드를 추가했습니다. 그리고 템플릿에서 잘못된 변수 값을 지정하고 있었다는 것을 깨닫고 해당 코드도 함께 수정했습니다.
+
+ ### 3) 게시판의 게시글 번호 처리하기 - 템플릿 필터 사용
+ #### 내용
+  - 게시글 목록에 번호 순서가 내림차순으로 정렬되어 나타나도록 표현하고 싶었습니다.
+  - 하지만 게시글이 5개가 넘어갔을 때 다음 페이지에서 보여지는 번호가 1번으로 나타나는 오류를 발견했습니다.
+  - 총 게시글이 만약 10개라면 1번 페이지의 최신 글의 번호는 10번이고, 2번 페이지의 최신글은 6번으로 나타나도록 수정하고 싶었습니다.
+
+ #### 결론
+  - 페이지별로 게시물의 번호를 역순으로 정렬하기 위해서 공식이 있고 해당 공식을 게시글의 번호 나열에 적용하면 되는 사실을 알았습니다.
+    ```
+    게시글 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1
+
+    * 시작인덱스 : 페이지당 시작되는 게시물의 시작번호
+                    => 게시물을 10개씩 보여줄 때 1페이지의 시작인덱스는 1,
+                        2페이지의 시작인덱스는 11이 됩니다.
+    * 현재인덱스 : 페이지에 보여지는 게시물 개수만큼 0부터 1씩 증가되는 번호
+    ```
+  - 이런 공식을 적용하여 게시글의 번호는 템플릿에서 변환되어야 한다고 생각했습니다. 그래서 이 기능을 위해 사용하고자 한 방법이 템플릿 필터입니다.
+  - 탬플릿 필터란 탬플릿 태그에서 | 문자 뒤에 사용하는 필터로 변수를 처리하는 기능입니다. 
+  - 템플릿 필터 파일들을 저장할 templatetags 디렉토리를 blog 앱 하위에 생성하고 blog_filter.py 파일을 생성한 다음 아래의 코드를 작성하여 저장하였습니다.
+    ```
+        # templatetags/blog_filter.py
+
+        from django import template
+
+        register = template.Library()
+
+
+        @register.filter
+        def sub(value, arg):
+            return value - arg
+    ```
+  - sub라는 함수 위에 register.filter 애너테이션을 적용하면 템플릿에서 해당 함수를 필터로 사용할 수 있습니다. 이 기능을 적용하기 위해 post_list.html 템플릿으로 이동하고 {% block content %} 상단에 {% load blog_filter %}를 추가하여 파일을 로드해주었습니다. 그 다음 게시글 번호가 출력될 수 있도록 해당 위치에 아래의 코드를 입력하여 수정하였습니다.
+
+    ```html
+    {% extends 'base.html' %}
+    {% load blog_filter %} <!-- 템플릿 필터 함수를 사용하기 위한 파일 로드 -->
+    {% block content %}
+
+                <!-- 이하 코드 생략... (줄이 너무 길어서 생략함) -->
+
+        <tbody>
+            {% if posts %}
+                {% for post in posts %}
+                    <tr>
+                        <td>
+                            <input type="checkbox">
+                        </td>
+                            <!-- 게시글번호 처리를 위한 구문 시작 -->
+                        <td>
+                            {{ posts.paginator.count|sub:posts.start_index|sub:forloop.counter0|add:1}}
+                        </td>
+                            <!-- 게시글 번호 처리를 위한 구문 끝 -->
+                        <td>
+                            <a href="{% url 'blog:detail' pk=post.pk %}">{{ post.title }}</a>
+                        </td>
+                        <td>{{ post.writer.nickname }}</td>
+                        <td>{{ post.created_at|date:'y-m-j' }}</td>
+                        <td>{{ post.hits }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+
+                <!-- 이하 코드 생략... (줄이 너무 길어서 생략함) -->
+
+            * posts.paginator.count : 전체 건수
+            * posts.start_index : 시작인덱스
+            * forloop.counter() : 현재인덱스
+    ```
+
 <p align="right"><a href="#top">(Top)</a></p>
 
 
 ## <span id="realization">10. 마무리 </span>
  ### 느낀점
- - Django는 어려운데 엄청 재밌다는 생각이 들었습니다.
- - 생각보다 Django 내부에서 제공하는 기능들도 많고, 찾아보면 Django에서 이런 기능도 제공한다고? 하는 생각이 드는 부분도 있었습니다.
- - 하지만 프로젝트 기간 내에 생각한 내용들을 다 구현해내지 못했고 (카테고리, 태그 등), 여전히 에러가 조금씩 보이는 것이 너무 아쉬웠습니다.
- - 프로젝트 기간은 끝이 났지만 이 프로젝트에 구현하고 싶은 기능들이 있어 다음 목표를 설정했습니다.
+ - 스케줄 관리 미흡
+    - 프로젝트 기간이 짧은 만큼 Django를 어떻게 하면 더 잘 다룰 수 있을까에 집중하기로 했다면 과감하게 UI를 포기할 필요가 있었다는 생각이 들었습니다. UI에 집중하는 시간이 길어질수록 구현할 기능들이 뒤로 미뤄지게 되고 결국 목표했던 구현 기능 중 일부 (카테고리, 태그)기능을 완성하지 못했습니다.
+ 
+ - Django는 어려운데 재밌다!
+    - 생각보다 Django 내부에서 제공하는 기능들이 많고, 찾아보면 Django에서 이런 기능도 제공한다고? 하는 생각이 드는 부분도 있었습니다.
 
  ### 다음 목표
+ - 프로젝트 기간은 끝이 났지만 이 프로젝트에 구현하고 싶은 기능들이 있어 다음 목표를 설정했습니다.
+
 - 1차 목표 (현재)
     - Django 강의에서 배운 내용들을 복습하며, 프로젝트의 핵심인 블로그 게시글의 CRUD 기능 구현에 익숙해진다.
     - 제공된 GitHub repo의 HTML+CSS를 기본으로 UI 커스터마이징하고, FBV보다는 CBV를 사용하여 개발한다.
