@@ -215,7 +215,19 @@ TRAVEL_LOG
     {% block content %}
 
                 <!-- 이하 코드 생략... (줄이 너무 길어서 생략함) -->
-
+        <thead>
+        <tr>
+            <th>
+            <input type="checkbox" id="all-article">
+            <!-- <label for="all-article">페이지 전체 게시글 선택</label> -->
+            </th>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+            <th>조회수</th>
+        </tr>
+        </thead>
         <tbody>
             {% if posts %}
                 {% for post in posts %}
