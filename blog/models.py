@@ -7,7 +7,8 @@ User = get_user_model()
 
 
 class Post(models.Model):
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    category = models.ForeignKey(
+        "Category", on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     content = models.TextField()
     writer = models.ForeignKey(User, on_delete=models.CASCADE)
