@@ -42,9 +42,10 @@
 
 
 /* 로그인 */
-.form-box {
-	margin-bottom: 10px;
+.container .login .login-box {
 	display: flex;
+	flex-direction: row;
+	margin-bottom: 10px;
 	align-items: center;
 }
 
@@ -52,24 +53,11 @@
 	margin-right: 10px;
 }
 
-.login, .join {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-
 /* 회원가입 */
-
-.join-table {
-	width: 600px;
-	border: none;
-	border-spacing: 0;
-    border-collapse: collapse;
-    table-layout: fixed;
-	margin-bottom: 10px;
+.container .join .join-box {
 	display: flex;
+	flex-direction: row;
+	margin-bottom: 10px;
 	align-items: center;
 }
 

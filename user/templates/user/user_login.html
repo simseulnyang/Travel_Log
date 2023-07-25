@@ -10,7 +10,7 @@
         <form action="{% url 'user:login' %}" method="post">
         {% csrf_token %}
         {% for field in form %}
-            <div class="form-box">
+            <div class="login-box">
                 <div class="label-width">{{ field.label }}</div>
                 <div class="login-input">{{ field }}</div>
             </div>
