@@ -106,6 +106,7 @@ class PostDetail(View):
         context = {
             'title': 'PostDetail',
             'pk': pk,
+            'post_category': post.category,
             'post_title': post.title,
             'post_content': post.content,
             'post_writer': post.writer.nickname,
@@ -126,28 +127,34 @@ class PostUpdate(View):
 
     def get(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
+        category = Category.objects.all()
         form = PostForm(
-            initial={'title': post.title, 'content': post.content})
+            initial={'category': post.category, 'title': post.title, 'content': post.content})
         context = {
             'title': 'PostUpdate',
             'post': post,
+            'category': category,
             'form': form,
         }
         return render(request, 'blog/post_edit.html', context)
 
     def post(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
+        category = Category.objects.all()
         form = PostForm(request.POST)
 
         if form.is_valid():
+            post.category = form.cleaned_data['category']
             post.title = form.cleaned_data['title']
             post.content = form.cleaned_data['content']
             post.save()
             return redirect('blog:detail', pk=pk)
 
         context = {
+            "title": "Blog",
+            'post': post,
             'form': form,
-            "title": "Blog"
+            'category': category,
         }
 
         return render(request, 'blog/post_edit.html', context)
