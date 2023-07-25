@@ -7,7 +7,7 @@ from django.utils import timezone
 
 class UserManager(BaseUserManager):
 
-    def _create_user(self, email, password, is_staff, is_superuser, **extra_fields):
+    def _create_user(self, email, nickname, password, is_staff, is_superuser, **extra_fields):
         if not email:
             raise ValueError('User must have an email')
 
@@ -15,6 +15,7 @@ class UserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(
             email=email,
+            nickname=nickname,
             is_staff=is_staff,
             is_superuser=is_superuser,
             last_login=now,
@@ -26,12 +27,12 @@ class UserManager(BaseUserManager):
         return user
 
     # create_user
-    def create_user(self, email, password, **extra_fields):
-        return self._create_user(email, password, False, False, **extra_fields)
+    def create_user(self, email, nickname, password, **extra_fields):
+        return self._create_user(email, nickname, password, False, False, **extra_fields)
 
     # create_superuser
-    def create_superuser(self, email, password, **extra_fields):
-        return self._create_user(email, password, True, True, **extra_fields)
+    def create_superuser(self, email, nickname, password, **extra_fields):
+        return self._create_user(email, nickname, password, True, True, **extra_fields)
 
 
 class User(AbstractUser):
@@ -49,3 +50,12 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+
+class Profile(models.Model):
+    user = models.OneToOneField('User', on_delete=models.CASCADE)
+    profile_img = models.ImageField(
+        upload_to='user/profile', null=True, blank=True)
+    about_me = models.TextField(default='내 소개 : ', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
