@@ -6,7 +6,7 @@ from .models import Post, Category, Comment, HashTag
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['title', 'writer', 'thumbnail']
 
 
 @admin.register(Category)
