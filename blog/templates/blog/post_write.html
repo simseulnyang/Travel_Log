@@ -11,10 +11,20 @@
         {% csrf_token %}
         <table class="table write">
             <colgroup>
-                <col style="width: 120px">
+                <col style="width: 80px">
                 <col>
             </colgroup>
             <tbody>
+                <tr>
+                    <th><label for="form-category">카테고리</label></th>
+                    <td>
+                        <select name="category" id="form-category">
+                            {% for item in category %}
+                                <option value="{{item.pk}}">{{item.name}}</option>
+                            {% endfor%}
+                        </select>
+                    </td>
+                </tr>
                 <tr>
                     <th><label for="board-title">제목</label></th>
                     <td><input type="text" id="board-title" name="title"></td>
@@ -27,14 +37,11 @@
                 </tr>
             </tbody>
         </table>
-
         <div class="btn-group">
         <a href="{% url 'blog:list' %}" class="list-btn">목록</a>
         <button type="reset" class="delete-btn">초기화</button>
         <button type="submit" class="btn">글작성</button>
         </div>
-
     </form>
 </section>
-
 {% endblock %}
