@@ -250,6 +250,11 @@ table a {
 	border-radius: 4px;
 	width: 100%;
 	height: 400px;
+	overflow: auto;
+}
+
+.table-category {
+	text-align: start;
 }
 
 #board-title {
@@ -302,4 +307,17 @@ table a {
 .view-content a {
 	color: royalblue;
 	text-decoration: underline;
+}
+
+
+/* 글 수정 페이지 */
+
+#board-content {
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	width: 100%;
+	height: 400px;
+	vertical-align: top;
+	white-space: pre-wrap;
+	overflow: auto;
 }
