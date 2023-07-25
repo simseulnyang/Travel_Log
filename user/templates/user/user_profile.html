@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="container">
+    <h2 class="profile-title">프로필</h2>
+    <p class="p-description">당신의 정보를 수정해주세요.</p>
+
+    <div class="profile">
+        <form class="profile-form" action="{% url 'user:pf-write' %}" enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+            <div class="form-box">
+                <img src="{{request.user.profile.profile_img.url}}" alt="" class="user-profile-img" />
+                <p class="p-nickname">{{user.nickname}}</p>
+
+                <div class="profile_div">
+                    <input id="profile-img" value="{{ form.initial.profile_img }}" placeholder="이미지 첨부파일">
+                    <label for="file">이미지찾기</label>
+                    <input type="file" id="file">
+                </div>
+
+                <div class="profile_div">
+                    <label for="profile-aboutMe" class="a11y-hidden">자기소개 변경하기</label>
+                    <input type="text" id="profile-aboutMe" name="{{ form.about_me.name }}" value="{{ form.initial.about_me }}">
+                </div>
+            </div>
+        <button class="submit-button" type="submit">프로필수정</button> 
+        </form>
+    </div>
+</section>
+
+
+{% endblock %}

@@ -1,0 +1,81 @@
+/* 프로필 페이지 */
+
+.profile-title {
+	text-align: center;
+}
+
+.p-description {
+    text-align: center;
+    margin: 5px 0 30px 0;
+	color: #767676;
+}
+
+.profile{
+    width: 420px;
+}
+
+.user-profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 150px;
+    margin-bottom : 15px;
+}
+
+.p-nickname {
+    font-size: 35px;
+    font-weight: bold;
+    margin-bottom : 20px;
+}
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.form-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.profile_div {
+    display: flex;
+    width: 380px;
+    margin-bottom: 10px;
+}
+
+.profile_div #profile-img {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 70%;
+    color: #999999;
+}
+
+.profile_div label {
+    display: inline-block;
+    padding: 10px 10px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #999999;
+    cursor: pointer;
+    height: 20px;
+    margin-left: 10px;
+}
+
+.profile_div input[type='file'] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+
+#profile-aboutMe {
+    width: 100%;
+}
