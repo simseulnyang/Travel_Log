@@ -22,6 +22,10 @@ class Post(models.Model):
     content = models.TextField()
     writer = models.ForeignKey(User, on_delete=models.CASCADE)
     hits = models.PositiveIntegerField(default=0, verbose_name='조회수')
+    thumbnail = models.ImageField(
+        upload_to='blog/media', null=True, blank=True)
+    file = models.FileField(
+        upload_to='blog/files/%Y/%m/%d/', null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
