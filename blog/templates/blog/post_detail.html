@@ -21,6 +21,7 @@
     <div class="view-header">
         <h2>{{ post_title }}</h2>
         <div class="view-info">
+            <p>카테고리: {{ post_category }}</p>|
             <p>작성자: {{ post_writer }}</p>|
             <p>작성일: {{ post_created_at|date:'Y년 m월 j일' }}</p>|
             <p>조회수: {{ post_hits }}</p>
