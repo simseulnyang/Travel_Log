@@ -16,13 +16,23 @@
             </colgroup>
             <tbody>
                 <tr>
+                    <th><label for="form-category">카테고리</label></th>
+                    <td>
+                        <select name="category" id="form-category">
+                            {% for item in category %}
+                                <option value="{{ item.pk }}" {% if item.pk == post.category.pk %} selected {% endif %}>{{ item.name }}</option>
+                            {% endfor%}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <th><label for="board-title">제목</label></th>
                     <td><input type="text" id="board-title" name="title" value="{{ post.title }}"></td>
                 </tr>
                 <tr>
                     <th><label for="board-content">내용</label></th>
                     <td>
-                    <textarea id="board-content" name="content" value="{{ form.content }}"></textarea>
+                    <input type="textarea" id="board-content" name="content" value="{{ post.content }}">
                     </td>
                 </tr>
             </tbody>
