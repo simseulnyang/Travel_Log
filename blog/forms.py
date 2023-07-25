@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Comment, HashTag
+from .models import Post, Category, Comment, HashTag
 
 
 class PostForm(forms.ModelForm):
