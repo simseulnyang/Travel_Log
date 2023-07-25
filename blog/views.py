@@ -10,7 +10,7 @@ from django.db.models import Q
 from django.views import View
 
 from .forms import PostForm, CommentForm, HashTagForm
-from .models import Post, Comment, HashTag
+from .models import Post, Category, Comment, HashTag
 
 
 # Post
@@ -24,7 +24,10 @@ class PostList(View):
 
         if search_keyword:
             if len(search_keyword) > 1:
-                if search_type == 'title_content':
+                if search_type == 'category':
+                    posts = posts.filter(
+                        Q(category_id__name__icontains=search_keyword)).distinct()
+                elif search_type == 'title_content':
                     posts = posts.filter(Q(title__icontains=search_keyword) | Q(
                         content__icontains=search_keyword)).distinct()
                 elif search_type == 'title':
@@ -60,14 +63,17 @@ class PostList(View):
 class PostWrite(LoginRequiredMixin, View):
 
     def get(self, request):
+        category = Category.objects.all()
         form = PostForm()
         context = {
             'title': 'PostWrite',
             'form': form,
+            'category': category,
         }
         return render(request, 'blog/post_write.html', context)
 
     def post(self, request):
+        category = Category.objects.all()
         form = PostForm(request.POST)
 
         if form.is_valid():
@@ -78,7 +84,8 @@ class PostWrite(LoginRequiredMixin, View):
 
         context = {
             'title': 'PostWrite',
-            'form': form
+            'form': form,
+            'category': category,
         }
         return render(request, 'blog/post_write.html', context)
 
