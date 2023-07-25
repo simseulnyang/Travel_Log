@@ -17,7 +17,7 @@
             <tbody>
                 <tr>
                     <th><label for="form-category">카테고리</label></th>
-                    <td>
+                    <td class="table-category">
                         <select name="category" id="form-category">
                             {% for item in category %}
                                 <option value="{{ item.pk }}" {% if item.pk == post.category.pk %} selected {% endif %}>{{ item.name }}</option>
@@ -32,6 +32,7 @@
                 <tr>
                     <th><label for="board-content">내용</label></th>
                     <td>
+                    <input type="hidden">
                     <input type="textarea" id="board-content" name="content" value="{{ post.content }}">
                     </td>
                 </tr>
