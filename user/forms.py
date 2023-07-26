@@ -25,6 +25,8 @@ class LoginForm(AuthenticationForm):
 
 class ProfileForm(forms.ModelForm):
 
+    nickname = forms.CharField(max_length=20)
+
     class Meta:
         model = Profile
         fields = ['profile_img', 'about_me']
