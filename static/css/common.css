@@ -69,7 +69,8 @@ header .inner h1 a {
 
 header .inner .util {
 	position: absolute;
-	top: 20px;
+	text-align: end;
+	top: 18px;
 	right: 30px;
 }
 
@@ -78,17 +79,29 @@ header .inner .util li {
 }
 
 header .inner .util li a {
-	display: block;
+	display: inline-flex;
+	align-items: center;
 	font: 12px/1 "arial";
 	color: #999;
-	padding: 0px 10px;
+	padding: 0 10px;
+}
+
+header .inner .util li:nth-child(2) a {
+	padding: 0 3px;
+	height: 20px;
+}
+
+header .inner .util li a img {
+	width: 20px;
+	height: 20px;
+	border-radius: 20px;
 }
 
 header .inner .util li .user-info {
-	display: block;
-	font: 12px/1 "arial";
+	display: flex;
+	font: 14px/1 "arial";
 	color: #3a3a3a;
-	padding: 0px 10px;
+	padding: 0px 3px;
 }
 
 header .inner .util li a:hover {
