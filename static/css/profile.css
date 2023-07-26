@@ -42,18 +42,10 @@
 }
 .profile_div {
     display: flex;
+    justify-content: center;
+    align-items: center;
     width: 380px;
     margin-bottom: 10px;
-}
-
-.profile_div #profile-img {
-    display: inline-block;
-    height: 40px;
-    padding: 0 10px;
-    vertical-align: middle;
-    border: 1px solid #dddddd;
-    width: 70%;
-    color: #999999;
 }
 
 .profile_div label {
@@ -64,7 +56,6 @@
     background-color: #999999;
     cursor: pointer;
     height: 20px;
-    margin-left: 10px;
 }
 
 .profile_div input[type='file'] {

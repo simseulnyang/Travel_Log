@@ -11,13 +11,12 @@
         <form class="profile-form" action="{% url 'user:pf-write' %}" enctype="multipart/form-data" method="post">
         {% csrf_token %}
             <div class="form-box">
-                <img src="{{request.user.profile.profile_img.url}}" alt="" class="user-profile-img" />
-                <p class="p-nickname">{{user.nickname}}</p>
+                <img src="{{ profile.profile_img }}" alt="프로필이미지" class="user-profile-img" />
+                <p class="p-nickname">{{ user.nickname }}</p>
 
                 <div class="profile_div">
-                    <input id="profile-img" value="{{ form.initial.profile_img }}" placeholder="이미지 첨부파일">
                     <label for="file">이미지찾기</label>
-                    <input type="file" id="file">
+                    <input type="file" id="file" class="profile-img" value="{{ form.initial.profile_img }}" name="{{ form.profile_img.name }}">
                 </div>
 
                 <div class="profile_div">
